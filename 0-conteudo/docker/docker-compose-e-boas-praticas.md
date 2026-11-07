@@ -92,6 +92,98 @@ volumes:
   pgdata:
 ```
 
+## Elementos do Compose
+
+### name
+
+Define o nome do projeto no Compose.
+
+```yaml
+name: galo
+services:
+  api:
+    build: .
+```
+
+### include
+
+É para quando estou montando o Compose e quero que venha nele outro Compose inteiro, que tenho separado. Os serviços do incluído podem ser usados no meu (por exemplo, no `depends_on`).
+
+Exemplo (meu): o Compose da infraestrutura (Postgres e RabbitMQ) fica numa pasta própria, e o da API o inclui.
+
+```yaml
+include:
+  - ../infra/compose.yaml    # traz o Postgres e o RabbitMQ
+services:
+  api:
+    build: .
+    depends_on:
+      - postgres
+```
+
+### extends
+
+Copia as configurações de um serviço para outro. A origem pode estar no mesmo arquivo, em outro arquivo ou até em outro projeto. Se está em outro arquivo, ela não entra no projeto: só empresta as configurações.
+
+Exemplo (da doc, adaptado por mim):
+
+```yaml
+# common.yaml
+services:
+  app:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+```
+
+```yaml
+# compose.yaml
+services:
+  worker:
+    extends:
+      file: common.yaml
+      service: app
+    command: dotnet Worker.dll    # o que é só do worker
+```
+
+### configs
+
+É um arquivo de configuração que eu informo ao container sem colocá-lo dentro da imagem.
+
+```yaml
+services:
+  api:
+    image: minha-api
+    configs:
+      - appsettings
+configs:
+  appsettings:
+    file: ./appsettings.Production.json
+```
+
+O container recebe o arquivo em `/appsettings`.
+
+### secrets
+
+É a mesma ideia do config, mas para segredos. Quando usar secret e quando usar variável de ambiente está na seção "Variável de ambiente ou secret?", acima.
+
+```yaml
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+secrets:
+  db_password:
+    file: ./db_password.txt
+```
+
+O container recebe o segredo como arquivo em `/run/secrets/db_password`.
+
+Fontes: [name](https://docs.docker.com/reference/compose-file/version-and-name/), [include](https://docs.docker.com/reference/compose-file/include/), [extends](https://docs.docker.com/compose/how-tos/multiple-compose-files/extends/), [configs](https://docs.docker.com/reference/compose-file/configs/) e [secrets](https://docs.docker.com/reference/compose-file/secrets/).
+
 ## Boas práticas
 
 1. **Imagem com apenas o necessário.** Multi-stage build e imagem base enxuta: menos tamanho, menos superfície de ataque.
