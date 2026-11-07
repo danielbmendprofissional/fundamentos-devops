@@ -10,6 +10,69 @@
 
 A ideia é que o artefato gerado no CI seja o mesmo publicado em todos os ambientes até chegar em produção.
 
+### Exemplo visual (meu): o caminho do artefato
+
+```mermaid
+flowchart LR
+  F["feature/x"] -->|abre MR| PM{{"Pipeline do MR<br/>build + test"}}
+  PM -->|artefato descartável| T["Ambiente temporário"]
+  PM -->|MR aprovado| M["main"]
+  M --> PO{{"Pipeline da main<br/>build + test + artefato oficial"}}
+  PO --> DEV --> QA --> HML --> AP{"Aprovação humana"}
+  AP --> PROD
+```
+
+### Exemplo vivo (meu): o mesmo pipeline em GitLab CI
+
+Simplificado e ilustrativo (os scripts de deploy são fictícios; o GitLab CI em detalhe é o tema 5):
+
+```yaml
+stages: [build, test, package, deploy-dev, deploy-qa, deploy-hml, deploy-prod]
+
+build:
+  stage: build
+  script: dotnet build -c Release
+
+test:
+  stage: test
+  script: dotnet test -c Release
+
+package:                       # só na main: gera o artefato OFICIAL, imutável (tag = SHA do commit)
+  stage: package
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+deploy-dev:                    # a MESMA imagem vai para cada ambiente
+  stage: deploy-dev
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script: ./deploy.sh dev $CI_COMMIT_SHA
+
+deploy-qa:
+  stage: deploy-qa
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script: ./deploy.sh qa $CI_COMMIT_SHA
+
+deploy-hml:
+  stage: deploy-hml
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script: ./deploy.sh hml $CI_COMMIT_SHA
+
+deploy-prod:
+  stage: deploy-prod
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual             # Entrega Contínua: espera aprovação de uma pessoa
+  script: ./deploy.sh prod $CI_COMMIT_SHA
+```
+
+O `build` e o `test` também rodam no pipeline do MR; o `package` e os `deploy-*` só na main, porque o artefato oficial só nasce depois da aprovação.
+
 ## Entrega Contínua
 
 O artefato é publicado automaticamente nos ambientes anteriores e fica sempre pronto para produção, mas o deploy em produção depende de aprovação de uma pessoa.
@@ -17,6 +80,17 @@ O artefato é publicado automaticamente nos ambientes anteriores e fica sempre p
 ## Implantação Contínua
 
 É quando o deploy em produção também é automático, sem aprovação humana.
+
+A diferença cabe numa linha do pipeline (exemplo meu, GitLab CI):
+
+```yaml
+deploy-prod:            # Entrega Contínua: o botão "play" espera uma pessoa
+  when: manual
+  script: ./deploy.sh prod $CI_COMMIT_SHA
+
+deploy-prod:            # Implantação Contínua: sem when: manual, roda sozinho
+  script: ./deploy.sh prod $CI_COMMIT_SHA
+```
 
 ## Branch por ambiente
 
@@ -29,6 +103,22 @@ O recomendado seria existir somente a branch main e as branchs de feature, e lid
 1. Eu termino uma feature e abro o MR para main. Na abertura desse MR eu publico a imagem descartável em um ambiente (dev|qa ou um ambiente temporário) para que seja validada a implementação da feature.
 
 2. Assim que validada eu aprovo o MR e jogo o código na main, utilizando o conceito de feature flags: todas as N features de N processos ficam dentro do código da MAIN enquanto são validadas em ambientes de dev, qa e talvez até mesmo homolog. O flag fica ligado nesses ambientes e desligado em produção até a aprovação, e quem liga é a configuração do ambiente.
+
+Exemplo vivo (meu) em .NET: o código novo já está na main, mas só roda onde o flag está ligado.
+
+```csharp
+if (builder.Configuration.GetValue<bool>("Features:NovoCheckout"))
+    return Results.Ok(novoCheckout.Calcular(pedido));   // caminho novo
+return Results.Ok(checkoutAtual.Calcular(pedido));      // caminho atual
+```
+
+```yaml
+# docker-compose do DEV                  # docker-compose da PRODUÇÃO
+environment:                             environment:
+  Features__NovoCheckout: "true"           Features__NovoCheckout: "false"
+```
+
+O `__` na variável de ambiente vira `:` na chave de configuração do .NET (`Features:NovoCheckout`).
 
 Também existe o git revert para desfazer uma mudança na main sem reescrever o histórico.
 

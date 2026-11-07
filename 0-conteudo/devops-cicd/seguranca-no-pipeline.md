@@ -16,6 +16,40 @@
 | Container scan | CI, depois do build |
 | DAST | CD, em qa/hml |
 
+### Exemplo visual (meu): onde cada uma entra no pipeline
+
+```mermaid
+flowchart LR
+  subgraph CI
+    A["Secret detection"] --> B["SCA"] --> C["SAST"] --> D["Build da imagem"] --> E["Container scan"]
+  end
+  subgraph CD
+    F["Deploy em qa/hml"] --> G["DAST"]
+  end
+  E --> F
+```
+
+### Exemplos vivos (meus): um comando para cada prática
+
+São ferramentas que conheço, escolhidas só para ilustrar (confirme as opções na doc de cada uma). Os recursos de segurança prontos do GitLab ficam para o tema 5.
+
+```bash
+gitleaks detect                                      # secret detection: procura segredos no repositório
+dotnet list package --vulnerable --include-transitive # SCA: pacotes NuGet com CVE conhecida
+trivy image minha-api:abc123                         # container scan: vulnerabilidades da imagem
+# SAST: analisador de código (ex.: semgrep) sobre o código-fonte
+# DAST: ex.: OWASP ZAP contra a aplicação já rodando em qa/hml
+```
+
+Como job de pipeline, bloqueando só severidade alta/crítica (flags do Trivy conferidas de memória):
+
+```yaml
+container-scan:
+  stage: test
+  script:
+    - trivy image --severity HIGH,CRITICAL --exit-code 1 $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+```
+
 ## Outros conceitos
 
 - **Shift-left:** colocar a segurança o mais cedo possível no fluxo.

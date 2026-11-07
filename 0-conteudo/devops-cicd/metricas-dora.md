@@ -6,6 +6,19 @@
 4. **Time to Restore:** quanto tempo leva para o time restaurar o serviço após falha? (hoje chamada de *Failed deployment recovery time*)
 5. **Deployment rework rate:** qual a proporção de deploys não planejados, feitos como consequência de um incidente em produção?
 
+## Exemplo visual (meu): onde cada métrica é medida
+
+```text
+commit ---- merge ---- deploy em prod ---------- falha ---------- serviço restaurado
+  |<-- lead time for changes -->|                  |<-- failed deployment recovery time -->|
+
+deployment frequency  = quantos deploys em produção por período
+change failure rate   = deploys que falharam / total de deploys
+deployment rework rate = deploys não planejados (por incidente) / total de deploys
+```
+
+Números ilustrativos de um mês: 20 deploys, 3 falharam e 2 foram correções não planejadas por incidente. Frequência: 20 por mês. Change failure rate: 3/20 = 15%. Rework rate: 2/20 = 10%. Se o primeiro desses deploys levou 2 dias do commit à produção, o lead time dele é de 2 dias.
+
 ## Como se agrupam
 
 - **Throughput (vazão):** lead time, deployment frequency e failed deployment recovery time.

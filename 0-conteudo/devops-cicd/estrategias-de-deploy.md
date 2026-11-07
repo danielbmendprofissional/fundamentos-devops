@@ -34,6 +34,41 @@ O flag no código indica o que vai e o que não vai subir para produção (ser l
 
 Ou seja: o canary divide **entre versões do artefato**, o flag liga ou desliga **dentro do mesmo artefato**. A fronteira é turva porque os flags também permitem liberar para uma porcentagem de usuários (*percentage rollout*).
 
+## Exemplos visuais (meus)
+
+Cada `[v1]` é uma instância da aplicação rodando a versão 1; `[v2]`, a versão 2.
+
+```text
+RECREATE                         ROLLING (3 instâncias)
+t0  [v1] [v1] [v1]               t0  [v1] [v1] [v1]
+t1  [  ] [  ] [  ]  <- fora      t1  [v2] [v1] [v1]
+t2  [v2] [v2] [v2]               t2  [v2] [v2] [v1]
+                                 t3  [v2] [v2] [v2]
+
+BLUE/GREEN                       CANARY
+antes da troca:                  usuários --95%--> [v1] [v1] [v1]
+ usuários --> [BLUE  v1 x3]                 --5%--> [v2]
+              [GREEN v2 x3] (validando)
+depois da troca:
+ usuários --> [GREEN v2 x3]
+              [BLUE  v1 x3] (fica no ar p/ rollback)
+```
+
+Expand/contract com um banco real: renomear a coluna `Nome` para `NomeCompleto` sem quebrar o rolling (SQL ilustrativo, estilo Postgres):
+
+```sql
+-- 1. Expand (deploy 1): cria a coluna nova; a v1 ignora o que não conhece
+ALTER TABLE Cliente ADD COLUMN NomeCompleto text NULL;
+
+-- 2. Migrate (deploy 2): a v2 passa a gravar e ler NomeCompleto; copia o que já existia
+UPDATE Cliente SET NomeCompleto = Nome WHERE NomeCompleto IS NULL;
+
+-- 3. Contract (deploy 3, depois que a v1 não existe mais): remove a antiga
+ALTER TABLE Cliente DROP COLUMN Nome;
+```
+
+Fazer os três passos num deploy só (`RENAME COLUMN`) é o que derruba a v1 enquanto ela ainda está no ar.
+
 ## Resumo
 
 | Estratégia | Indisponibilidade | Custo extra | Rollback | Risco exposto |
