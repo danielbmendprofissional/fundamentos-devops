@@ -50,7 +50,7 @@ kubectl auth can-i list pods --namespace default --as jane      # yes
 kubectl auth can-i get secrets --namespace default --as jane    # no
 ```
 
-Ligação com os segredos ([kubernetes-configmap-e-secret.md](kubernetes-configmap-e-secret.md)): `get secrets` é o verbo que expõe o Secret. Quem só tem `pod-reader` lê Pods e não lê Secrets. Exemplo (meu): o desenvolvedor recebe o papel de ver Pods e logs em `dev`, e ninguém recebe `get secrets` nem `exec` em `prod`.
+Ligação com os segredos ([kubernetes-configmap-e-secret.md](kubernetes-configmap-e-secret.md)): `get secrets` é o verbo que expõe o Secret. Quem só tem `pod-reader` lê Pods e não lê Secrets. Exemplo: o desenvolvedor recebe o papel de ver Pods e logs em `dev`, e ninguém recebe `get secrets` nem `exec` em `prod`.
 
 ## NetworkPolicy
 
@@ -121,7 +121,7 @@ Pod api   ──> Pod postgres:5432     PERMITIDO
 Pod admin ──> Pod postgres:5432     BLOQUEADO
 ```
 
-Exemplo 3 (meu), de saída: a API só pode falar com o Postgres e o RabbitMQ.
+Exemplo 3, de saída: a API só pode falar com o Postgres e o RabbitMQ.
 
 ```yaml
 spec:

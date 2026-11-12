@@ -63,7 +63,7 @@ Fonte: [HPA](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-aut
 
 Gerenciador de pacotes do Kubernetes. Resolve o problema de subir uma aplicação com muitos recursos (Deployment, Service, ConfigMap, Secret, Ingress, HPA, PVC...), repetidos para dev, hml e prod com valores diferentes. O Helm agrupa tudo num pacote e deixa mudar só os valores.
 
-| Conceito | O que é | Analogia (minha) |
+| Conceito | O que é | Analogia |
 |---|---|---|
 | **Chart** | o pacote que descreve uma aplicação e seus recursos | o instalador |
 | **Repository** | onde os charts ficam para busca e download | a loja de instaladores |
@@ -74,7 +74,7 @@ O mesmo chart pode virar várias releases (a API em dev e a API em prod).
 ### Comandos essenciais (doc)
 
 ```bash
-helm repo add bitnami https://charts.bitnami.com/bitnami   # adiciona um repositório (exemplo meu)
+helm repo add bitnami https://charts.bitnami.com/bitnami   # adiciona um repositório
 helm search repo postgresql                                 # busca nos repositórios adicionados
 helm install meu-banco bitnami/postgresql                   # instala: cria a release "meu-banco"
 helm list                                                   # releases instaladas
@@ -87,7 +87,7 @@ helm uninstall meu-banco                                    # remove
 
 O `-f values.yaml` entrega um arquivo com os valores. O `--set` define direto na linha de comando e tem precedência sobre o arquivo.
 
-Exemplo (meu): a mesma API em dois ambientes.
+Exemplo: a mesma API em dois ambientes.
 
 ```bash
 helm install api-dev  ./charts/api -f values-dev.yaml  -n dev

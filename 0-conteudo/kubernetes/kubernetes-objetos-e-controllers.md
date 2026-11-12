@@ -15,7 +15,7 @@ Campos obrigatórios do manifesto: `apiVersion`, `kind`, `metadata` (nome, UID, 
 
 Ele não sobe o container sozinho: pede ao kube-apiserver (por exemplo, para criar um Pod). O scheduler escolhe o node e o kubelet sobe o container.
 
-Exemplo (meu), a mesma ideia em C#:
+Exemplo, a mesma ideia em C#:
 
 ```csharp
 while (true)

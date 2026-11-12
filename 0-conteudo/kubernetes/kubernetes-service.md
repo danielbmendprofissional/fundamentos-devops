@@ -13,7 +13,7 @@ outra API ──> Service "api" (IP fixo)
                   └─> Pod api-x3     <- Pods vêm e vão, o Service continua o mesmo
 ```
 
-Exemplo (meu), na frente do Deployment da API:
+Exemplo, na frente do Deployment da API:
 
 ```yaml
 apiVersion: v1
@@ -36,7 +36,7 @@ O tipo define de onde se pode chamar o Service.
 1. **ClusterIP** (o padrão): somente interno ao cluster. Os Pods e os nodes podem chamar, o externo não chega.
 2. **NodePort:** abre uma porta em cada node, e assim o externo consegue chamar o Service pelo node.
 3. **LoadBalancer:** o Service pede à nuvem um balanceador de carga externo, uma espécie de gateway público na frente do Service, com balanceamento de carga.
-4. **ExternalName:** não tem Pods por trás. É um apelido DNS dentro do cluster que aponta para um endereço de fora. Exemplo (meu): o Postgres é um serviço gerenciado fora do cluster, e a API chama o nome `banco`.
+4. **ExternalName:** não tem Pods por trás. É um apelido DNS dentro do cluster que aponta para um endereço de fora. Exemplo: o Postgres é um serviço gerenciado fora do cluster, e a API chama o nome `banco`.
 5. **Headless:** `clusterIP: None`, sem IP único. O DNS devolve os IPs dos Pods diretamente. É o que o StatefulSet exige (`serviceName`). (De memória; o usuário ainda não assimilou esse tipo.)
 
 ```yaml
@@ -92,7 +92,7 @@ spec:
     app: postgres
 ```
 
-| Tipo | Quem consegue chamar | Exemplo (meu) |
+| Tipo | Quem consegue chamar | Exemplo |
 |---|---|---|
 | ClusterIP | só dentro do cluster | worker → API; API → Postgres |
 | NodePort | quem sabe o IP e a porta de um node | teste no laboratório |

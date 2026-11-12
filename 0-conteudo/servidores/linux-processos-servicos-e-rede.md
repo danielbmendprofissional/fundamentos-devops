@@ -12,7 +12,7 @@ Ligação com o Docker: o container é, no fundo, um processo isolado. O process
 
 Num servidor sem container, quem mantém a API de pé depois de o servidor reiniciar ou de ela cair é o systemd, o gerenciador de serviços do Linux. O programa é descrito num arquivo `.service` (a estrutura é da doc do systemd).
 
-Exemplo (meu, adaptado da doc), para a API .NET:
+Exemplo (adaptado da doc), para a API .NET:
 
 ```ini
 [Unit]
@@ -141,7 +141,7 @@ Num servidor com systemd, os logs do serviço vão para o journal, consultado co
 
 ---
 
-# Grande exemplo (meu): 3 aplicações num servidor, com DNS, firewall e Nginx
+# Grande exemplo: 3 aplicações num servidor, com DNS, firewall e Nginx
 
 Os nomes, os IPs e os domínios são inventados, só para ilustrar (`203.0.113.7` e `198.51.100.10` são faixas reservadas para documentação). Os arquivos de configuração são de memória: confira a sintaxe antes de usar.
 

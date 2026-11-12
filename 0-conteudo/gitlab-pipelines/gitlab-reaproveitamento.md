@@ -51,7 +51,7 @@ Podem ser usadas: variáveis de projeto, grupo e instância; predefinidas `CI_PR
 - A mesclagem é profunda para hashes. Valores simples são substituídos.
 - **Arrays não são mesclados por item**: `script` e `rules`, por exemplo, são substituídos inteiros. Para estender um `script`, repita os comandos originais.
 
-### Exemplo (meu): um template central usado por vários projetos
+### Exemplo: um template central usado por vários projetos
 
 Num projeto central `meu-grupo/templates`, o arquivo `templates/template.yml`:
 
@@ -254,7 +254,7 @@ meu-job:
   script: dotnet test
 ```
 
-(O `$[[ inputs.stage ]]` é de memória: a página lida não mostra a sintaxe de uso do input.)
+(O `$[[ inputs.stage ]]` é de memória.)
 
 Uso:
 
@@ -286,5 +286,3 @@ Pré-requisitos: o projeto marcado como "CI/CD Catalog project" (papel Owner), d
 ### Componente x template comum
 
 Os dois são incluídos com `include` e mesclados ao pipeline. O componente: aparece no catálogo, tem versões (tags e releases), vários componentes podem ser versionados juntos no mesmo projeto e usa inputs com validação em vez de variáveis. Restrições: componentes não usam `spec:include` e devem ser autocontidos.
-
-Não foram lidos: `include:inputs` (no `include` normal, a página não traz detalhes), as páginas de inputs, de segurança de pipelines e de releases.

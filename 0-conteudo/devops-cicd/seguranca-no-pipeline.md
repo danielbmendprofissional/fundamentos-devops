@@ -16,7 +16,7 @@
 | Container scan | CI, depois do build |
 | DAST | CD, em qa/hml |
 
-### Exemplo visual (meu): onde cada uma entra no pipeline
+### Exemplo visual: onde cada uma entra no pipeline
 
 ```mermaid
 flowchart LR
@@ -29,9 +29,7 @@ flowchart LR
   E --> F
 ```
 
-### Exemplos vivos (meus): um comando para cada prática
-
-São ferramentas que conheço, escolhidas só para ilustrar (confirme as opções na doc de cada uma). Os recursos de segurança prontos do GitLab ficam para o tema 5.
+### Exemplos vivos: um comando para cada prática
 
 ```bash
 gitleaks detect                                      # secret detection: procura segredos no repositório

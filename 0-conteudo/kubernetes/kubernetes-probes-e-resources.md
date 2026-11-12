@@ -10,7 +10,7 @@ Medem a saúde da aplicação dentro do container. São definidas por container.
 | **Readiness** | está pronto para receber tráfego? | o Pod sai do Service, sem reiniciar |
 | **Startup** | já terminou de subir? | enquanto não passar, liveness e readiness não começam; se falhar demais, reinicia |
 
-A diferença que importa: liveness reinicia, readiness só tira do tráfego. Exemplo (meu): a API perdeu a conexão com o banco por um minuto. A readiness falha e ela sai do Service, sem usuário ver erro, e volta quando o banco voltar. Se fosse liveness, seria reiniciada à toa.
+A diferença que importa: liveness reinicia, readiness só tira do tráfego. Exemplo: a API perdeu a conexão com o banco por um minuto. A readiness falha e ela sai do Service, sem usuário ver erro, e volta quando o banco voltar. Se fosse liveness, seria reiniciada à toa.
 
 A readiness é medida por container, mas o efeito é no Pod: o Pod só recebe tráfego do Service quando todos os containers dele estão prontos (de memória).
 
@@ -35,7 +35,7 @@ Os padrões vieram do resumo de uma página que veio cortada; confira antes de d
 | `successThreshold` | sucessos seguidos para considerar OK | 1 |
 | `failureThreshold` | falhas seguidas para considerar falha | 3 |
 
-### Exemplo (meu): a API .NET
+### Exemplo: a API .NET
 
 Pressupõe os endpoints `/health/live` e `/health/ready` (os health checks do ASP.NET Core).
 
@@ -92,7 +92,7 @@ Quem sai primeiro quando o node aperta:
 | **Burstable** | pelo menos um request ou limit, mas não é Guaranteed | no meio |
 | **BestEffort** | nenhum request nem limit | primeiro |
 
-Exemplo (meu): a API, com request menor que o limit (Burstable).
+Exemplo: a API, com request menor que o limit (Burstable).
 
 ```yaml
 resources:

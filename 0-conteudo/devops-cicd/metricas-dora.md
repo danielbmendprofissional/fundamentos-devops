@@ -6,7 +6,7 @@
 4. **Time to Restore:** quanto tempo leva para o time restaurar o serviço após falha? (hoje chamada de *Failed deployment recovery time*)
 5. **Deployment rework rate:** qual a proporção de deploys não planejados, feitos como consequência de um incidente em produção?
 
-## Exemplo visual (meu): onde cada métrica é medida
+## Exemplo visual: onde cada métrica é medida
 
 ```text
 commit ---- merge ---- deploy em prod ---------- falha ---------- serviço restaurado

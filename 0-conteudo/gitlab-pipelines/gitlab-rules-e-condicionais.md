@@ -32,7 +32,7 @@ job:
 | `exists` | casa se o arquivo existe (com `when: never`, exclui o job quando ele existe) |
 | `when` | `on_success` (padrão), `manual`, `always`, `never` |
 | `allow_failure` | `false` por padrão |
-| `variables`, `needs` | existem, mas a página lida não os descreve |
+| `variables`, `needs` | também existem em `rules` |
 
 ## Condicionais `if`: variáveis e operadores
 
@@ -59,7 +59,7 @@ Operadores:
 
 ## workflow:rules
 
-Controla quais tipos de pipeline podem rodar; é a forma recomendada de evitar pipelines duplicados. A página de `rules` só a menciona (detalhes em outra página, não lida).
+Controla quais tipos de pipeline podem rodar; é a forma recomendada de evitar pipelines duplicados.
 
 ## A armadilha do pipeline duplicado (branch + MR)
 
@@ -127,7 +127,7 @@ job1:
 
 Migração de `only/except`: em vez de excluir, defina quando o job deve rodar (por exemplo `if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH`).
 
-## Exemplo (meu): rules para a API .NET
+## Exemplo: rules para a API .NET
 
 O padrão de `workflow` é o conhecido da doc de workflow (a variável `$CI_OPEN_MERGE_REQUESTS` é de memória); confira antes de usar.
 
@@ -177,8 +177,6 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 ```
 
-Existem variáveis predefinidas exclusivas de MR (as `CI_MERGE_REQUEST_*`), cuja lista está na página de variáveis predefinidas (não lida).
+Existem variáveis predefinidas exclusivas de MR (as `CI_MERGE_REQUEST_*`), cuja lista está na página de variáveis predefinidas.
 
-**Merged results pipelines** testam o resultado da junção entre a source e a target branch, e as **merge trains** enfileiram merges para testar cada um sobre o resultado dos anteriores (de memória). A página lida só remete a ambos; a explicação não foi lida.
-
-Não foram lidos: `rules:variables`, `rules:needs`, a página de `workflow` e os exemplos linkados sobre como evitar pipelines duplicados em detalhe.
+**Merged results pipelines** testam o resultado da junção entre a source e a target branch, e as **merge trains** enfileiram merges para testar cada um sobre o resultado dos anteriores (de memória).

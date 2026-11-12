@@ -74,7 +74,7 @@ Usar o número no `USER` (e não o nome) permite ao Kubernetes verificar que nã
 
 ## Números diferentes entre apps
 
-O `fsGroup` é um número que se escolhe: não precisa existir antes. Pode repetir o mesmo número em containers de imagens diferentes sem erro, porque as listas de nomes são separadas. Mas o kernel enxerga só o número, e dois Pods que compartilham o mesmo volume precisam combinar os números. Recomendação (minha): usar números diferentes por aplicação, para que uma app não leia os arquivos da outra se os volumes se misturarem.
+O `fsGroup` é um número que se escolhe: não precisa existir antes. Pode repetir o mesmo número em containers de imagens diferentes sem erro, porque as listas de nomes são separadas. Mas o kernel enxerga só o número, e dois Pods que compartilham o mesmo volume precisam combinar os números. Recomendação: usar números diferentes por aplicação, para que uma app não leia os arquivos da outra se os volumes se misturarem.
 
 ## Alinhando com Docker e Kubernetes
 
@@ -106,7 +106,7 @@ Organização recomendada: o Dockerfile traz o padrão sensato (usuário comum);
 
 Ajustar permissão com comando dentro de um container em execução não é o caminho: o container é efêmero, e o que foi feito à mão se perde quando o Pod é recriado. O certo é declarar no Dockerfile e no YAML.
 
-## Exemplo (meu): a API que não consegue gravar no volume
+## Exemplo: a API que não consegue gravar no volume
 
 ```text
 O volume foi criado por root:  drwxr-xr-x  root root  /dados

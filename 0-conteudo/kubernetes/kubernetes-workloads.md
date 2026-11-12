@@ -18,7 +18,7 @@ Mantém N Pods idênticos sempre rodando. É um controller aplicado a Pods.
 - `selector`: como achar os Pods dele (por label).
 - `template`: o molde do Pod, usado quando precisa criar mais.
 
-Exemplo (meu):
+Exemplo:
 
 ```yaml
 apiVersion: apps/v1
@@ -59,7 +59,7 @@ Gerencia um conjunto de Pods para rodar uma aplicação, normalmente stateless. 
 Deployment  ──cria e gerencia──>  ReplicaSet  ──cria e mantém──>  Pods
 ```
 
-Exemplo (meu): o YAML é igual ao do ReplicaSet, só muda o `kind`.
+Exemplo: o YAML é igual ao do ReplicaSet, só muda o `kind`.
 
 ```yaml
 apiVersion: apps/v1
@@ -111,7 +111,7 @@ Antecessor do ReplicaSet: também garante que N réplicas de Pods estejam sempre
 | `apiVersion` | `v1` | `apps/v1` |
 | `selector` | mapa simples, só igualdade | `matchLabels` e também `matchExpressions` |
 
-Exemplo (meu):
+Exemplo:
 
 ```yaml
 apiVersion: v1
@@ -152,9 +152,9 @@ O campo `serviceName` aponta para um Service headless (`clusterIP: None`) que pr
 | Pods | intercambiáveis | cada um é único |
 | Nome | aleatório | `nome-0`, `nome-1`... |
 | Disco | compartilhado ou nenhum | um por Pod |
-| Exemplo (meu) | a API | Postgres, RabbitMQ |
+| Exemplo | a API | Postgres, RabbitMQ |
 
-Exemplo (meu): Postgres. A estrutura é a da doc.
+Exemplo: Postgres. A estrutura é a da doc.
 
 ```yaml
 apiVersion: v1
@@ -220,7 +220,7 @@ Usos citados na doc:
 2. Daemon de coleta de logs em cada node.
 3. Daemon de monitoramento do node em cada node.
 
-Sem restrição, vale para todos os nodes. Com `nodeSelector`, só para os nodes que combinam com a label (exemplo meu):
+Sem restrição, vale para todos os nodes. Com `nodeSelector`, só para os nodes que combinam com a label:
 
 ```yaml
 spec:
@@ -259,7 +259,7 @@ spec:
           path: /var/log
 ```
 
-Fora do arquivo por decisão de enxugar: prioridade e preempção, `tolerations` para rodar nos nodes do control plane e como o scheduler vincula o Pod ao node.
+Não tratados aqui: prioridade e preempção, `tolerations` para rodar nos nodes do control plane e como o scheduler vincula o Pod ao node.
 
 Fonte: [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).
 
@@ -303,7 +303,7 @@ kubectl describe job pi
 kubectl logs jobs/pi
 ```
 
-Exemplo (meu): migrations da API, rodando antes de subir a versão nova.
+Exemplo: migrations da API, rodando antes de subir a versão nova.
 
 ```yaml
 apiVersion: batch/v1
@@ -381,7 +381,7 @@ spec:
           restartPolicy: OnFailure
 ```
 
-Exemplo (meu): limpeza da API toda madrugada.
+Exemplo: limpeza da API toda madrugada.
 
 ```yaml
 apiVersion: batch/v1

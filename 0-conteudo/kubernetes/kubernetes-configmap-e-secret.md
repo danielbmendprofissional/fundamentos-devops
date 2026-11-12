@@ -6,7 +6,7 @@ O critério é o mesmo do Docker: configuração não sensível vai para o Confi
 
 Guarda pares chave-valor não sensíveis, separados da imagem, para que a mesma imagem rode em dev e em prod mudando só a configuração. Limite de 1 MiB. Não oferece sigilo nenhum.
 
-Exemplo (meu), para a API:
+Exemplo, para a API:
 
 ```yaml
 apiVersion: v1
@@ -29,7 +29,7 @@ data:
 3. como arquivo num volume, somente leitura;
 4. código dentro do Pod que consulta a API do Kubernetes.
 
-Exemplo (meu), no Deployment da API, com variável de ambiente e arquivo:
+Exemplo, no Deployment da API, com variável de ambiente e arquivo:
 
 ```yaml
 containers:
@@ -64,7 +64,7 @@ stringData:
   senha: "exemplo"
 ```
 
-Exemplo (meu), usando na API:
+Exemplo, usando na API:
 
 ```yaml
 env:

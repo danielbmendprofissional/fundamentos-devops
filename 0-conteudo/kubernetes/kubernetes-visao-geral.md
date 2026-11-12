@@ -69,15 +69,10 @@ Container  ->  Pod  ->  Node (servidor/VM)  ->  Cluster (control plane + worker 
 | 13 | Windows in Kubernetes | fora |
 | 14 | Extending Kubernetes | fora (CRDs, operators) |
 
-## Deixado de fora por decisão (foco no essencial)
+## Tópicos não cobertos
 
 - Rede: Gateway API, EndpointSlices, DNS for Services and Pods em detalhe, dual-stack, Topology Aware Routing, Networking on Windows, Service ClusterIP allocation, Service Internal Traffic Policy.
 - Pod em detalhe: multi-container, init containers, static Pods, ciclo de vida.
 - Workloads extras citados pela doc: recursos de terceiros via CRD e a Workload API (PodGroup, Beta).
 - Volumes: o restante da lista de tipos (nfs, iscsi, fc, csi, local, projected, downwardAPI, image e os depreciados).
 - Segurança: Pod Security Standards, ServiceAccount em detalhes, auditoria, criptografia em repouso (apenas citada).
-- Quase todas as páginas consultadas vieram cortadas depois dos primeiros 100 mil caracteres; cada arquivo indica o que é de memória.
-
-## Prática
-
-Os exemplos aplicados à API `8-domain-drive-design` (Deployment, Service, Ingress, ConfigMap, Secret, Postgres, RabbitMQ) ficam para depois da teoria dos 6 temas.

@@ -17,7 +17,7 @@ spec:
     - containerPort: 80
 ```
 
-## Exemplo (meu): a API .NET em um Pod
+## Exemplo: a API .NET em um Pod
 
 ```yaml
 apiVersion: v1

@@ -29,7 +29,7 @@ Para `docker run -i -t ubuntu /bin/bash`:
 4. Cria uma interface de rede ligando o container à rede padrão.
 5. Inicia o container e executa o comando.
 
-Exemplo (meu) para ver a separação client e daemon, e os plugins:
+Exemplo para ver a separação client e daemon, e os plugins:
 
 ```bash
 docker version        # mostra duas seções: Client e Server (o daemon)

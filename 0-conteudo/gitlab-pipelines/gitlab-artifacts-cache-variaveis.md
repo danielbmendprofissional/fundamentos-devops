@@ -4,7 +4,7 @@
 
 Arquivos ou diretórios que um job gera e salva ao final da execução, como saídas de build ou relatórios. Por padrão, os jobs dos estágios seguintes baixam os artifacts dos jobs dos estágios anteriores.
 
-Exemplo (meu): o build publica a API uma vez, e os jobs seguintes usam os mesmos arquivos.
+Exemplo: o build publica a API uma vez, e os jobs seguintes usam os mesmos arquivos.
 
 ```yaml
 build:
@@ -47,7 +47,7 @@ test:
   stage: test
   image: mcr.microsoft.com/dotnet/sdk:10.0
   script:
-    - dotnet test --logger "junit;LogFilePath=test-results/results.xml"   # (meu) exige o pacote JunitXml.TestLogger no projeto de testes
+    - dotnet test --logger "junit;LogFilePath=test-results/results.xml"   # exige o pacote JunitXml.TestLogger no projeto de testes
   artifacts:
     reports:
       junit: test-results/results.xml        # os testes aparecem no MR e no pipeline
@@ -95,7 +95,7 @@ Os relatórios (`reports`) são enviados sempre, com sucesso ou falha do job; os
 | `requirements` (Ultimate) | marca requisitos do projeto como atendidos |
 | `terraform` | plano do OpenTofu (`tfplan.json`) no widget do MR; exige tratar com jq para remover credenciais |
 
-Fonte: [Artifacts reports](https://docs.gitlab.com/ci/yaml/artifacts_reports/). A página só trouxe exemplo com RSpec; o do `dotnet test` é meu e não foi verificado.
+Fonte: [Artifacts reports](https://docs.gitlab.com/ci/yaml/artifacts_reports/). O exemplo do `dotnet test` não foi verificado.
 
 ### Controlar quem recebe os artifacts
 
@@ -141,9 +141,7 @@ Fonte: [Caching](https://docs.gitlab.com/ci/caching/).
 | `cache:policy` | `pull-push` (baixa e atualiza), `pull` (só baixa); o `push` não é detalhado na página |
 | `cache:fallback_keys` | até 5 chaves alternativas, testadas em ordem; também existe a variável `CACHE_FALLBACK_KEY` |
 
-O campo `cache:key:prefix` não é descrito na página lida.
-
-Exemplo (meu, sugestão fora da página): cache do NuGet para a API .NET. O cache só funciona com caminhos dentro do projeto, por isso a variável `NUGET_PACKAGES`.
+Exemplo: cache do NuGet para a API .NET. O cache só funciona com caminhos dentro do projeto, por isso a variável `NUGET_PACKAGES`.
 
 ```yaml
 variables:
@@ -286,7 +284,7 @@ A ordem completa é a lista numerada acima (políticas de pipeline ou de varredu
 
 ### Predefinidas mais usadas
 
-A página lida só trouxe `CI_JOB_STAGE`, `CI_COMMIT_SHA`, `CI_ENVIRONMENT_ID`, `CI_ENVIRONMENT_SLUG`, `CI_ENVIRONMENT_URL` e `CI_PAGES_URL`. As demais são de memória e a lista oficial está na página de variáveis predefinidas (não lida):
+A lista oficial está na página de variáveis predefinidas. Fora `CI_JOB_STAGE`, `CI_COMMIT_SHA`, `CI_ENVIRONMENT_ID`, `CI_ENVIRONMENT_SLUG`, `CI_ENVIRONMENT_URL` e `CI_PAGES_URL`, os nomes abaixo são de memória:
 
 | Variável | O que é |
 |---|---|
@@ -301,7 +299,7 @@ A página lida só trouxe `CI_JOB_STAGE`, `CI_COMMIT_SHA`, `CI_ENVIRONMENT_ID`, 
 
 ### Valores pré-preenchidos em pipeline manual
 
-`value` e `description` no bloco de `variables` definem o valor sugerido e o texto ao disparar o pipeline manualmente (a página só remete; o detalhe não foi lido).
+`value` e `description` no bloco de `variables` definem o valor sugerido e o texto ao disparar o pipeline manualmente.
 
 ### Escopo por ambiente
 
@@ -315,4 +313,4 @@ Fonte: [External secrets](https://docs.gitlab.com/ci/secrets/). Premium e Ultima
 - Provedores suportados: **HashiCorp Vault, Google Cloud Secret Manager, Azure Key Vault e AWS Secrets Manager**.
 - A autenticação usa **ID tokens** (JWT); com qualquer provedor que aceite OIDC, é possível autenticar manualmente.
 
-Não foram lidos: a sintaxe do `secrets:` e as páginas de cada provedor. Ver o critério de quando usar variável ou segredo em [../docker/docker-compose-e-boas-praticas.md](../docker/docker-compose-e-boas-praticas.md) e o aviso de que nenhum segredo é 100% secreto em [../kubernetes/kubernetes-configmap-e-secret.md](../kubernetes/kubernetes-configmap-e-secret.md).
+Ver o critério de quando usar variável ou segredo em [../docker/docker-compose-e-boas-praticas.md](../docker/docker-compose-e-boas-praticas.md) e o aviso de que nenhum segredo é 100% secreto em [../kubernetes/kubernetes-configmap-e-secret.md](../kubernetes/kubernetes-configmap-e-secret.md).

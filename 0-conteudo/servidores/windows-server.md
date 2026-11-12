@@ -80,19 +80,19 @@ Quando se usa container Windows (de memória): aplicações .NET Framework antig
 - O Windows Server aparece quando o cliente ou a empresa já o tem (aplicações legadas, Active Directory). Basta reconhecer os nomes: Server Core, IIS, application pool, Active Directory, ACL.
 - O raciocínio de permissão, rede, firewall e logs é o mesmo; muda a ferramenta.
 
-## Deixado de fora por decisão
+## Não coberto
 
-Instalação e configuração do IIS, PowerShell em detalhe, Active Directory e Hyper-V. Decisão do usuário: não será usado agora nem no futuro; os links abaixo são para o dia em que for preciso.
+Instalação e configuração do IIS, PowerShell em detalhe, Active Directory e Hyper-V. Os links abaixo são para pesquisa, caso seja preciso.
 
 ## Links para pesquisar no dia que precisar
 
-Consultados nesta sessão:
+Consultados:
 
 - [O que é o Server Core](https://learn.microsoft.com/en-us/windows-server/administration/server-core/what-is-server-core)
 - [Arquitetura do IIS](https://learn.microsoft.com/en-us/iis/get-started/introduction-to-iis/introduction-to-iis-architecture)
 - [Sobre os Windows containers](https://learn.microsoft.com/en-us/virtualization/windowscontainers/about/)
 
-Não consultados (endereços de memória; confira se abrem):
+De memória (confira se abrem):
 
 - [Documentação do IIS](https://learn.microsoft.com/en-us/iis/)
 - [Hospedar o ASP.NET Core no IIS](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/)

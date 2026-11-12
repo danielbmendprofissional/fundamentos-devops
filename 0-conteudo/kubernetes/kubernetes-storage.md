@@ -56,7 +56,7 @@ Diretório que os containers do Pod enxergam. Resolve dois problemas (doc):
 | `hostPath` | monta uma pasta do node no Pod; prende o Pod a um node e pode expor arquivos do host |
 | `configMap` / `secret` | entregues como arquivos (ver [kubernetes-configmap-e-secret.md](kubernetes-configmap-e-secret.md)) |
 
-Exemplo (meu): a API grava arquivos temporários.
+Exemplo: a API grava arquivos temporários.
 
 ```yaml
 containers:
@@ -113,7 +113,7 @@ O que acontece com o PV quando o PVC é apagado:
 
 `Available` (livre) → `Bound` (ligado a um PVC) → `Released` (o PVC foi apagado, aguardando recuperação) ou `Failed` (a recuperação falhou).
 
-### Exemplo (meu): PVC e Pod do Postgres
+### Exemplo: PVC e Pod do Postgres
 
 ```yaml
 apiVersion: v1

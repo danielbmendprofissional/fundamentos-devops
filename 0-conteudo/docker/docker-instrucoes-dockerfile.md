@@ -55,7 +55,7 @@ Com o `--mount` posso dar algo "extra" ao `RUN`, somente naquele comando:
 - **secret:** um segredo de build, como o token do NuGet. Não são os segredos da API.
 - **ssh:** útil quando a operação precisa de acesso SSH, como um `git clone`.
 
-Os outros tipos de `--mount` são `bind` (deixado de fora por decisão) e `tmpfs` (ainda não explicado).
+Os outros tipos de `--mount` são `bind` e `tmpfs`.
 
 ### ARG
 
@@ -113,15 +113,13 @@ Informa que aquela imagem tem um volume naquele caminho. No Docker Compose é on
 
 ### STOPSIGNAL
 
-Define o sinal que encerra o container (padrão `SIGTERM`). Deixado de fora por decisão, sem aprofundar.
+Define o sinal que encerra o container (padrão `SIGTERM`).
 
 ### HEALTHCHECK
 
 Está nas boas práticas. No Dockerfile é o teste de saúde que vem na imagem; o Compose pode sobrescrever os valores (ou desligar com `disable: true`).
 
 ## Bloco 4: metadados e outros (LABEL, MAINTAINER, ONBUILD)
-
-Anotado de forma simples, a pedido. O texto abaixo é da doc, não é palavra minha do usuário.
 
 - **LABEL:** adiciona metadados à imagem, em pares `chave=valor` (valor com espaço entre aspas duplas). As labels da imagem base são herdadas. Para ver: `docker image inspect`.
 - **MAINTAINER:** define o autor da imagem. Está **deprecated**; use `LABEL org.opencontainers.image.authors="..."`.

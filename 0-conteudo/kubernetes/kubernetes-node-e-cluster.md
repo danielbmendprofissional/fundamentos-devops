@@ -30,7 +30,7 @@ CLUSTER
 1. **kube-apiserver:** é a API do Kubernetes, onde o `kubectl` fala com ele. É a única porta de entrada do cluster: o `kubectl`, o scheduler, os controllers e os kubelets conversam com ele, e ninguém mexe no etcd direto (isso é de memória; a doc só diz "exposes the Kubernetes HTTP API").
 2. **etcd:** é o banco de dados do cluster.
 3. **kube-scheduler:** é quem decide em qual node o Pod roda. "Schedule" aqui não é agendar no tempo, é alocar o Pod em um node. Pelo que li na doc, ele filtra os nodes que servem (têm CPU e memória livres) e depois pontua os que sobraram.
-4. **kube-controller-manager:** roda os controllers. Um controller compara o que foi pedido com o que existe e corrige a diferença. Exemplo (meu): pedi 3 Pods da API, um node caiu e restaram 2; o controller manda criar mais 1. Os controllers serão vistos em detalhe adiante.
+4. **kube-controller-manager:** roda os controllers. Um controller compara o que foi pedido com o que existe e corrige a diferença. Exemplo: pedi 3 Pods da API, um node caiu e restaram 2; o controller manda criar mais 1. Os controllers serão vistos em detalhe adiante.
 5. **cloud-controller-manager (opcional):** faz o cluster conversar com o provedor de nuvem (por exemplo, pedir um balanceador de carga da nuvem; exemplo de memória). É opcional porque um cluster local não tem nuvem por trás.
 
 ## Componentes do node
@@ -43,7 +43,7 @@ CLUSTER
 
 Ampliam o Kubernetes: DNS, Web UI (Dashboard), Container Resource Monitoring e Cluster-level Logging.
 
-## Exemplo (meu): o que acontece num `kubectl apply -f pod.yaml`
+## Exemplo: o que acontece num `kubectl apply -f pod.yaml`
 
 ```text
 kubectl ──> kube-apiserver ──> grava no etcd ("existe um Pod sem node")

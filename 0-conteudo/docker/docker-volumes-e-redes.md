@@ -13,7 +13,7 @@ Fica dentro do servidor que executa o Docker, controlado pelo próprio Docker.
 - **Volume vazio:** o Docker copia para ele o conteúdo que a imagem tem naquele caminho (populate inicial). Basta a imagem ter arquivos ali.
 - **Volume com dados:** o conteúdo do volume vence e o que a imagem tinha naquele caminho fica escondido. Não existe junção dos dois.
 
-Exemplo (meu) com o Postgres da API, num Compose:
+Exemplo com o Postgres da API, num Compose:
 
 ```yaml
 services:
@@ -31,7 +31,7 @@ O mesmo pela linha de comando: `docker run -v pgdata:/var/lib/postgresql/data po
 
 O apontamento fica no próprio SO do host, controlado por ele. Se a imagem tem dados naquele caminho, os do host prevalecem: os arquivos da imagem ficam **escondidos** pelo mount, não apagados. O bind mount nunca copia nada.
 
-Exemplo (meu): pôr no container da API um `appsettings.Development.json` que está na minha máquina.
+Exemplo: pôr no container da API um `appsettings.Development.json` que está na minha máquina.
 
 ```yaml
 services:
@@ -61,7 +61,7 @@ São as formas (ou não formas) de comunicação entre os containers.
 
 Existem outros drivers para cenários avançados: **overlay** (liga containers de vários hosts, usado no Swarm), **macvlan** (o container aparece como um dispositivo na rede do host) e **ipvlan** (liga containers a VLANs externas).
 
-Exemplo (meu) das três redes principais, pela linha de comando:
+Exemplo das três redes principais, pela linha de comando:
 
 ```bash
 # bridge criada por mim: os containers se acham pelo nome

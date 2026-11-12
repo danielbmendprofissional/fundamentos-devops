@@ -262,7 +262,7 @@ Em merge request, use `ref` com `$CI_MERGE_REQUEST_REF_PATH` (não o nome da bra
 
 `environment` junto com `trigger` permite ver o ambiente no projeto de origem. Os relatórios do filho (testes JUnit, code quality, Terraform, métricas, segurança) aparecem no widget do MR (segurança a partir da 18.9).
 
-## Quando usar cada uma (resumo meu)
+## Quando usar cada uma
 
 | Situação | Arquitetura |
 |---|---|
@@ -271,5 +271,3 @@ Em merge request, use `ref` com `$CI_MERGE_REQUEST_REF_PATH` (não o nome da bra
 | monorepo ou YAML gigante | pai-filho |
 | vários serviços/repositórios que se disparam | multi-projeto |
 | precisa gerar o pipeline em tempo de execução | filho dinâmico por artifact |
-
-Não foram lidos: os vídeos da página, a referência YAML completa (`trigger:forward`, `trigger:strategy`, `interruptible`), os limites de administração e a página de troubleshooting.

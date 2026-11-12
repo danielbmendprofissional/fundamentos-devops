@@ -130,7 +130,7 @@ kubectl top pods --sort-by=cpu
 
 O `kubectl top` precisa de um componente de métricas instalado no cluster (de memória).
 
-### Caminho de diagnóstico típico (meu)
+### Caminho de diagnóstico típico
 
 ```text
 Pod não sobe?  kubectl get pods  ->  kubectl describe pod X  (eventos)  ->  kubectl logs X

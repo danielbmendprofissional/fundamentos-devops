@@ -84,6 +84,6 @@ spec:
 
 ## Aviso da doc
 
-O Kubernetes recomenda a Gateway API no lugar do Ingress. A API do Ingress está congelada: continua disponível e estável, sem funcionalidades novas, e não há plano de removê-la. A Gateway API ficou de fora por decisão de focar no essencial.
+O Kubernetes recomenda a Gateway API no lugar do Ingress. A API do Ingress está congelada: continua disponível e estável, sem funcionalidades novas, e não há plano de removê-la.
 
 Fontes: [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) e [Ingress Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/).

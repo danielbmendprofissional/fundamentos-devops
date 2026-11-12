@@ -10,7 +10,7 @@
 
 A ideia é que o artefato gerado no CI seja o mesmo publicado em todos os ambientes até chegar em produção.
 
-### Exemplo visual (meu): o caminho do artefato
+### Exemplo visual: o caminho do artefato
 
 ```mermaid
 flowchart LR
@@ -22,9 +22,9 @@ flowchart LR
   AP --> PROD
 ```
 
-### Exemplo vivo (meu): o mesmo pipeline em GitLab CI
+### Exemplo vivo: o mesmo pipeline em GitLab CI
 
-Simplificado e ilustrativo (os scripts de deploy são fictícios; o GitLab CI em detalhe é o tema 5):
+Simplificado e ilustrativo (os scripts de deploy são fictícios):
 
 ```yaml
 stages: [build, test, package, deploy-dev, deploy-qa, deploy-hml, deploy-prod]
@@ -81,7 +81,7 @@ O artefato é publicado automaticamente nos ambientes anteriores e fica sempre p
 
 É quando o deploy em produção também é automático, sem aprovação humana.
 
-A diferença cabe numa linha do pipeline (exemplo meu, GitLab CI):
+A diferença cabe numa linha do pipeline (GitLab CI):
 
 ```yaml
 deploy-prod:            # Entrega Contínua: o botão "play" espera uma pessoa
@@ -104,7 +104,7 @@ O recomendado seria existir somente a branch main e as branchs de feature, e lid
 
 2. Assim que validada eu aprovo o MR e jogo o código na main, utilizando o conceito de feature flags: todas as N features de N processos ficam dentro do código da MAIN enquanto são validadas em ambientes de dev, qa e talvez até mesmo homolog. O flag fica ligado nesses ambientes e desligado em produção até a aprovação, e quem liga é a configuração do ambiente.
 
-Exemplo vivo (meu) em .NET: o código novo já está na main, mas só roda onde o flag está ligado.
+Exemplo vivo em .NET: o código novo já está na main, mas só roda onde o flag está ligado.
 
 ```csharp
 if (builder.Configuration.GetValue<bool>("Features:NovoCheckout"))

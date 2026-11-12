@@ -31,7 +31,7 @@ Por padrão o acesso à CPU é ilimitado.
 
 ## Exemplos
 
-Pela linha de comando (exemplo meu), a API com meio núcleo e 512 MB:
+Pela linha de comando, a API com meio núcleo e 512 MB:
 
 ```bash
 docker run -d --cpus=".5" --memory=512m --memory-reservation=256m minha-api
@@ -58,6 +58,6 @@ A doc do Compose não diz se o `deploy` é respeitado fora do Swarm. Confira com
 
 ## cgroups
 
-A doc diz só que o Docker modifica as configurações do cgroup do container no host. A explicação de que cgroups são o mecanismo do kernel Linux que limita recursos de um grupo de processos é conhecimento meu, não está na doc consultada.
+O Docker modifica as configurações do cgroup do container no host. Cgroups são o mecanismo do kernel Linux que limita recursos de um grupo de processos (de memória).
 
 Fontes: [Resource constraints](https://docs.docker.com/engine/containers/resource_constraints/) e [Compose, deploy](https://docs.docker.com/reference/compose-file/deploy/).

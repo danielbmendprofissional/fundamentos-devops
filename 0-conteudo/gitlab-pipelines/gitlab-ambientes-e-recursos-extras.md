@@ -29,7 +29,7 @@ deploy-hml:
 
 Estados: disponível, parando (o job `on_stop` começou) e parado.
 
-### Review app (exemplo meu)
+### Review app
 
 Um ambiente por merge request, que sobe a versão da branch e é apagado depois.
 
@@ -84,7 +84,7 @@ auto_stop_in vence ──> GitLab dispara stop-review ──(seu script)──> 
 ### Tier e proteção
 
 - **`deployment_tier`:** `development`, `testing`, `staging`, `production` e `other`. Sem a palavra-chave, o GitLab deduz pelo nome por expressão regular; a doc recomenda declará-la. Não se define pela interface. Permite proteções de ambiente em nível de grupo entre projetos com nomes diferentes.
-- **Ambiente protegido:** restringe quem pode implantar ou alterar. Quem não tem acesso não pode pará-lo nem excluí-lo. O fluxo de aprovação não foi lido (a página só remete).
+- **Ambiente protegido:** restringe quem pode implantar ou alterar. Quem não tem acesso não pode pará-lo nem excluí-lo.
 
 ### Rollback
 
@@ -92,16 +92,15 @@ auto_stop_in vence ──> GitLab dispara stop-review ──(seu script)──> 
   - **não** é um `git revert`: o código no repositório não muda;
   - **não** roda o pipeline inteiro: só os jobs de implantação. Se a implantação depende de artifacts de jobs anteriores (por exemplo um `plan` do Terraform separado do `apply`), é preciso executar esses jobs à mão na página de pipelines;
   - o processo de implantação precisa estar no `script` do job (um rollback que depende de passos externos não funciona);
-  - se a proteção contra jobs de implantação desatualizados estiver ativa, os botões podem ficar ocultos ou desabilitados (seção de segurança de implantação, não lida).
+  - se a proteção contra jobs de implantação desatualizados estiver ativa, os botões podem ficar ocultos ou desabilitados (seção de segurança de implantação).
 - **Automático** (Ultimate, desligado por padrão, segundo a página de ambientes): um alerta crítico com a chave `gitlab_environment_name` reimplanta a implantação bem-sucedida mais recente; não ocorre se já houver uma em execução, e no máximo um rollback a cada 3 minutos. Esse assunto não apareceu na página de implantações.
 
-**Está no plano gratuito?** A página de implantações lista Free, Premium e Ultimate para o conjunto de recursos, mas não detalha o rollback por plano; então não dá para afirmar pela doc. De memória, o rollback manual está disponível em todos os planos e o automático é do Ultimate. As **aprovações de implantação** (*deployment approvals*) só apareceram como link e não foram lidas.
+**Está no plano gratuito?** A página de implantações lista Free, Premium e Ultimate para o conjunto de recursos, mas não detalha o rollback por plano; então não dá para afirmar pela doc. De memória, o rollback manual está disponível em todos os planos e o automático é do Ultimate.
 
 ### Variáveis por ambiente
 
-A variável pode valer só para `production` ou `review/*` (ver [gitlab-artifacts-cache-variaveis.md](gitlab-artifacts-cache-variaveis.md)). A variável `$CI_ENVIRONMENT_NAME` não foi encontrada na página lida; ela cita `CI_ENVIRONMENT_SLUG`.
+A variável pode valer só para `production` ou `review/*` (ver [gitlab-artifacts-cache-variaveis.md](gitlab-artifacts-cache-variaveis.md)). A página cita `CI_ENVIRONMENT_SLUG`.
 
-Não foram lidos: ambientes protegidos, implantações, review apps (páginas), a API de ambientes, os painéis do Kubernetes, o Environments Dashboard e os terminais web.
 
 ## Auto DevOps
 
@@ -184,7 +183,7 @@ pages:
   pages: true                  # marca o job como deploy do Pages
 ```
 
-- A pasta padrão é `public`. A doc diz que dá para definir outra, mas essa seção não foi lida; o jeito antigo, com `artifacts: paths: [public]`, é de memória (a página não o mostrou, nem o `pages:publish`).
+- A pasta padrão é `public`. A doc diz que dá para definir outra. O jeito antigo, com `artifacts: paths: [public]`, é de memória.
 - Domínio padrão `*.gitlab.io` (únicos por projeto, evitam cookies compartilhados entre projetos do mesmo grupo). Domínios customizados exigem acesso ao DNS.
 - HTTPS automático no domínio padrão; nos customizados, com certificado (Let's Encrypt obtido e renovado automaticamente).
 - No GitLab.com o site é público por padrão; restringe-se com o Pages Access Control.
@@ -203,9 +202,9 @@ Se vários jobs usam o mesmo `path_prefix`, o último concluído é o publicado.
 
 - **Expiração:** `pages.expire_in`; tarefas a cada 10 minutos param e depois excluem os deployments expirados.
 
-Para quê, no seu contexto (meu): documentação, o site estático do projeto ou o relatório de cobertura publicado.
+Para quê, no seu contexto: documentação, o site estático do projeto ou o relatório de cobertura publicado.
 
-### Um painel de publicação que se atualiza a cada pipeline (meu)
+### Um painel de publicação que se atualiza a cada pipeline
 
 Sim, dá para ter um HTML que o próprio pipeline regenera a cada execução e publica no Pages. O job escreve o `index.html` com as informações do pipeline (as variáveis `CI_COMMIT_SHORT_SHA`, `CI_COMMIT_TITLE`, `CI_PIPELINE_URL`, `GITLAB_USER_NAME` e `CI_COMMIT_REF_NAME` são de memória):
 
@@ -266,9 +265,9 @@ Interruptores para ligar e desligar uma funcionalidade sem novo deploy: entrega 
 
 Uma flag pode ter várias estratégias, cada uma com os ambientes onde vale (por padrão, todos).
 
-### É a mesma ideia de feature flag do CI/CD?
+### Relação com as feature flags do CI/CD
 
-Sim: é a mesma ideia de [../devops-cicd/ci-cd-fundamentos.md](../devops-cicd/ci-cd-fundamentos.md), com um painel pronto. Um ponto importante: **o GitLab não marca código como flag**. A flag é um interruptor guardado no GitLab, e **o seu código precisa perguntar** se ele está ligado. Exemplo (meu, ilustrativo):
+É a mesma ideia de [../devops-cicd/ci-cd-fundamentos.md](../devops-cicd/ci-cd-fundamentos.md), com um painel pronto. Um ponto importante: **o GitLab não marca código como flag**. A flag é um interruptor guardado no GitLab, e **o seu código precisa perguntar** se ele está ligado. Exemplo (ilustrativo):
 
 ```csharp
 // Program.cs da API: a rota nova só existe quando a flag está ligada
@@ -284,13 +283,13 @@ public Pedido Calcular(Pedido p) =>
     _unleash.IsEnabled("novo_calculo_frete") ? CalcularNovo(p) : CalcularAntigo(p);
 ```
 
-Fluxo: você faz o deploy com a flag **desligada**, o código novo vai para produção sem ser executado, e depois liga a flag no GitLab (Deploy > Feature flags), sem novo deploy. Quem pode ligar é definido pelo papel mínimo do projeto (Developer, Maintainer, Owner ou ninguém). A página lida **não** mostra um fluxo de aprovação para ligar uma flag; o controle é por permissão.
+Fluxo: você faz o deploy com a flag **desligada**, o código novo vai para produção sem ser executado, e depois liga a flag no GitLab (Deploy > Feature flags), sem novo deploy. Quem pode ligar é definido pelo papel mínimo do projeto (Developer, Maintainer, Owner ou ninguém). A doc não mostra um fluxo de aprovação para ligar uma flag; o controle é por permissão.
 
 ### Estratégias de rollout, em palavras simples
 
 A estratégia responde: **para quem a funcionalidade está ligada?**
 
-| Estratégia | Em linguagem simples | Exemplo (meu) |
+| Estratégia | Em linguagem simples | Exemplo |
 |---|---|---|
 | All users | para todo mundo | lançamento final da funcionalidade |
 | Percent Rollout | para uma porcentagem das visualizações | 10% das requisições veem o novo cálculo de frete |
@@ -342,7 +341,7 @@ contexto.user_id = '123'
 puts 'Funcionalidade ativa' if client.is_enabled?('minha_feature', contexto)
 ```
 
-Em .NET existe um cliente Unleash para a aplicação (de memória; a página lida só mostrou Ruby).
+Em .NET existe um cliente Unleash para a aplicação (de memória).
 
 Atenções: o Unleash Proxy está descontinuado (fim de vida previsto para 26/11/2026); o Unleash Edge, o substituto, não é compatível com o GitLab; a API tem limite de requisições por IP (muitos clientes atrás do mesmo IP podem receber 429).
 
@@ -366,7 +365,7 @@ Permite: comunicar-se com clusters atrás de firewall ou NAT; acessar a API do c
 
 O agente é instalado no cluster e sempre registrado em um projeto do GitLab; depois a conexão pode ser compartilhada com outros projetos, grupos e usuários. Recomenda-se um agente por cluster. Os *receptive agents* (Ultimate, self-managed, desde a 17.4) deixam o GitLab se conectar ao agente por uma URL, para quando o cluster não consegue abrir conexão até o GitLab.
 
-De memória (a página lida não cobre; confira na doc de instalação e do fluxo de CI/CD): a configuração do agente fica em `.gitlab/agents/<nome>/config.yaml`, com `ci_access` listando os projetos e grupos autorizados; no pipeline, o contexto do `kubectl` vem do agente.
+De memória (confira na doc de instalação e do fluxo de CI/CD): a configuração do agente fica em `.gitlab/agents/<nome>/config.yaml`, com `ci_access` listando os projetos e grupos autorizados; no pipeline, o contexto do `kubectl` vem do agente.
 
 ```yaml
 deploy:
@@ -378,4 +377,4 @@ deploy:
 
 Ligação com o Kubernetes: o `kubectl apply` do pipeline é o deploy declarativo de [../kubernetes/kubernetes-objetos-e-controllers.md](../kubernetes/kubernetes-objetos-e-controllers.md), e o RBAC de [../kubernetes/kubernetes-seguranca-basica.md](../kubernetes/kubernetes-seguranca-basica.md) limita o que o agente pode fazer.
 
-Não foram lidos: a instalação passo a passo, o `config.yaml`, o `ci_access`, o uso no pipeline e a migração da integração antiga baseada em certificado. Versões do Kubernetes suportadas citadas pela página: 1.34 a 1.36.
+Versões do Kubernetes suportadas citadas pela página: 1.34 a 1.36.

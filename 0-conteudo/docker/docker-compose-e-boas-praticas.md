@@ -6,7 +6,7 @@ Não tem nem o que dissertar: é um conceito para não ter segredos hardcoded em
 
 Ponto de atenção: variável de ambiente evita segredo no código, mas **não é cofre**. A doc do Docker diz que, ao injetar senhas e chaves por variável de ambiente, "you risk unintentional information exposure", e que elas podem aparecer em logs de debug. Para segredo de verdade, o Compose entrega *secrets* como arquivo em `/run/secrets/<nome>`. E `ARG`/`ENV` usados no build "persist in the final image", ou seja, ficam gravados na imagem.
 
-Exemplo (meu) no Compose, com um `.env` ao lado do arquivo:
+Exemplo no Compose, com um `.env` ao lado do arquivo:
 
 ```yaml
 services:
@@ -31,7 +31,7 @@ DB_CONNECTION=Host=postgres;Database=app;Username=app;Password=exemplo
 
 Critério: se vazar num log ou numa tela de depuração dá problema, é secret. Se não dá, é variável.
 
-Exemplo (meu) com os dois lado a lado:
+Exemplo com os dois lado a lado:
 
 ```yaml
 services:
@@ -55,7 +55,7 @@ secrets:
 
 O secret só adianta se a aplicação sabe ler o arquivo. O Postgres lê por causa do `POSTGRES_PASSWORD_FILE`. No ASP.NET Core existe o provedor **Key-Per-File**, que a doc da Microsoft diz ser usado em cenários Docker: ele usa os arquivos de uma pasta como configuração (nome do arquivo = chave, conteúdo = valor; `__` no nome vira `:`).
 
-Exemplo (meu) no `Program.cs` da API:
+Exemplo no `Program.cs` da API:
 
 ```csharp
 builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: true);
@@ -63,7 +63,7 @@ builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: tru
 var senha = builder.Configuration["db_password"];   // conteúdo do arquivo /run/secrets/db_password
 ```
 
-Ressalva (minha, não verificada na doc): no laboratório local, variável com senha de mentira basta; em servidor ou pipeline, o ideal costuma ser o gerenciador de segredos da plataforma.
+Ressalva (não verificada na doc): no laboratório local, variável com senha de mentira basta; em servidor ou pipeline, o ideal costuma ser o gerenciador de segredos da plataforma.
 
 Fontes: [Microsoft, configuração do ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/).
 
@@ -73,7 +73,7 @@ Fontes: [Compose, secrets](https://docs.docker.com/compose/how-tos/use-secrets/)
 
 O Dockerfile é sobre uma aplicação: ele **constrói uma imagem**. O Compose é o arquivo em que manuseamos a **execução** de N serviços diferentes: healthcheck, dependência, configuração dos volumes, redes, etc. Não é um "Dockerfile maior", são ferramentas diferentes. O Compose pode apontar para um Dockerfile (`build:`) ou para uma imagem pronta (`image:`).
 
-Exemplo (meu): a API é construída pelo Dockerfile (`build:`) e o banco vem de uma imagem pronta (`image:`).
+Exemplo: a API é construída pelo Dockerfile (`build:`) e o banco vem de uma imagem pronta (`image:`).
 
 ```yaml
 services:
@@ -109,7 +109,7 @@ services:
 
 É para quando estou montando o Compose e quero que venha nele outro Compose inteiro, que tenho separado. Os serviços do incluído podem ser usados no meu (por exemplo, no `depends_on`).
 
-Exemplo (meu): o Compose da infraestrutura (Postgres e RabbitMQ) fica numa pasta própria, e o da API o inclui.
+Exemplo: o Compose da infraestrutura (Postgres e RabbitMQ) fica numa pasta própria, e o da API o inclui.
 
 ```yaml
 include:
@@ -194,7 +194,7 @@ Fontes: [name](https://docs.docker.com/reference/compose-file/version-and-name/)
 6. **`.dockerignore`.** Exclui do contexto de build o que não é relevante (`bin/`, `obj/`, `.git`, arquivos de segredo): build mais rápido, melhor cache e nada de segredo indo para dentro da imagem.
 7. **Logs em stdout/stderr.** Por padrão o `docker logs` mostra o `STDOUT` e o `STDERR` do container. A aplicação escreve na saída padrão e a plataforma coleta; gravar em arquivo dentro do container perde tudo quando ele morre.
 
-### Exemplos das boas práticas (meus)
+### Exemplos das boas práticas
 
 Healthcheck no Compose, com a API esperando o banco ficar saudável:
 

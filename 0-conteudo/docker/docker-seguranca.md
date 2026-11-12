@@ -40,11 +40,11 @@ O Engine pode ser configurado para rodar só imagens assinadas.
 
 O rootless roda o daemon (e os containers) como um usuário comum do host, em vez de root. É diferente do `USER`, que define quem é o processo dentro do container. Se o daemon for explorado, o invasor assume só o usuário comum.
 
-## Deixado de fora por decisão
+## Outros recursos
 
 Outros recursos do kernel citados pela doc: AppArmor, SELinux, TOMOYO, GRSEC e user namespaces.
 
-## Exemplo (meu): execução endurecida da API
+## Exemplo: execução endurecida da API
 
 As flags são de memória, não conferidas na doc: confirme antes de usar.
 

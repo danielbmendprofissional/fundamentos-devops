@@ -34,7 +34,7 @@ O flag no código indica o que vai e o que não vai subir para produção (ser l
 
 Ou seja: o canary divide **entre versões do artefato**, o flag liga ou desliga **dentro do mesmo artefato**. A fronteira é turva porque os flags também permitem liberar para uma porcentagem de usuários (*percentage rollout*).
 
-## Exemplos visuais (meus)
+## Exemplos visuais
 
 Cada `[v1]` é uma instância da aplicação rodando a versão 1; `[v2]`, a versão 2.
 

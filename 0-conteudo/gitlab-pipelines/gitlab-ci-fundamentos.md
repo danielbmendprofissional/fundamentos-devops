@@ -26,7 +26,7 @@ commit / merge request / agendamento / manual
 
 Os jobs do mesmo stage rodam em paralelo, e o stage seguinte só começa quando todos os do anterior terminam com sucesso. O `needs` quebra essa regra (ver [gitlab-arquiteturas-de-pipeline.md](gitlab-arquiteturas-de-pipeline.md)).
 
-## Exemplo (meu): o menor pipeline da API .NET
+## Exemplo: o menor pipeline da API .NET
 
 ```yaml
 stages:
@@ -99,11 +99,9 @@ Fonte: [referência de sintaxe](https://docs.gitlab.com/ci/yaml/). A página tem
 | `dast_configuration` | usa perfis de DAST no job |
 | `run` | configuração de execução consumida pelo runner |
 
-`only` e `except` não estão no índice (são as palavras-chave antigas, substituídas por `rules`); há um link para "Deprecated keywords" que não foi lido.
+`only` e `except` não estão no índice (são as palavras-chave antigas, substituídas por `rules`);.
 
 ## Exemplos das palavras-chave
-
-Os exemplos marcados "(doc)" vêm da referência do `.gitlab-ci.yml`; os "(meu)" são para a API .NET. A referência foi lida em três trechos de 100 mil caracteres, e o que não apareceu num trecho está dito.
 
 ### tags: escolher o runner
 
@@ -119,7 +117,7 @@ build:
 deploy-hml:
   script: kubectl apply -f k8s/
   tags:
-    - k8s-deploy        # (meu) runner com acesso ao cluster
+    - k8s-deploy        # runner com acesso ao cluster
 ```
 
 As tags são definidas quando o runner é registrado (de memória). Sem `tags`, o job vai para um runner que aceite jobs sem tag.
@@ -138,7 +136,7 @@ teste:                      # (doc)
     - bundle exec rspec
 ```
 
-Exemplo (meu): testes de integração da API contra um Postgres. O host do banco é o `alias`.
+Exemplo: testes de integração da API contra um Postgres. O host do banco é o `alias`.
 
 ```yaml
 test-integracao:
@@ -257,7 +255,7 @@ job1:                       # (doc)
   script: rspec
   coverage: '/Code coverage: \d+(?:\.\d+)?/'
 
-test:                       # (meu, regex não testada: depende do formato da saída do coverlet)
+test:                       # regex não testada: depende do formato da saída do coverlet
   script: dotnet test /p:CollectCoverage=true
   coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?)%/'
 ```
@@ -363,8 +361,6 @@ job-passos:
       script: echo "olá"
 ```
 
-Não apareceram nos trechos lidos: `interruptible`, `start_in` e `identity` em mais detalhe, e os exemplos de `default` e `workflow` (a referência cobre 274 mil caracteres).
-
 ## Tópicos da seção de CI/CD da doc
 
 Fonte: [GitLab CI/CD](https://docs.gitlab.com/ci/). São 20 tópicos: primeiros passos, tutoriais, referência de sintaxe, runners, pipelines, jobs, componentes, inputs, variáveis, segurança de pipelines, gerenciador de segredos, segredos externos, depuração, Auto DevOps, testes, sustentabilidade, integração com Google Cloud, migração, integrações com repositórios externos e DevOps para apps móveis.
@@ -379,6 +375,6 @@ Neste conteúdo estão cobertos:
 | `rules`, `if`, `workflow`, pipelines de MR | [gitlab-rules-e-condicionais.md](gitlab-rules-e-condicionais.md) |
 | Environments, Auto DevOps, Pages, feature flags, agent do Kubernetes | [gitlab-ambientes-e-recursos-extras.md](gitlab-ambientes-e-recursos-extras.md) |
 
-Deixados de fora: tutoriais, depuração, sustentabilidade, integração com Google Cloud, migração, integrações com repositórios externos e DevOps para apps móveis.
+Não cobertos: tutoriais, depuração, sustentabilidade, integração com Google Cloud, migração, integrações com repositórios externos e DevOps para apps móveis.
 
 A segurança no pipeline (secret detection, SCA, SAST, container scan, DAST) está em [../devops-cicd/seguranca-no-pipeline.md](../devops-cicd/seguranca-no-pipeline.md).
